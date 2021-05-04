@@ -13,6 +13,6 @@ const BookingSchema = new mongoose.Schema({
     books : [BookSchema]
 })
 
-const Booking = mongoose.model('Booking', BookSchema)
+const BookingModel = mongoose.model('Booking', BookSchema)
 
-export default Booking
+export default BookingModel
