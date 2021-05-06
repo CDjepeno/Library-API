@@ -5,7 +5,7 @@ import router from './routes/routes.js'
 
 dotenv.config()
 
-const PORT = process.env.PORT || 5000
+
 const app = express();
 
 /**
@@ -24,6 +24,5 @@ app
     .use(express.json())
     .use(router)
 
-app.listen(PORT, () => {
-    console.log(`Listening at port ${PORT}`)
-})
+
+export default app;
