@@ -5,7 +5,7 @@ const BookSchema = new mongoose.Schema({
         type: String, 
         require: true,
         lowercase: true,
-        unique: true
+        unique: "Un livre possède déja ce titre"
     },
     genre: {
         type: String,

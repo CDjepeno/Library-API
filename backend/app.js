@@ -11,7 +11,7 @@ const app = express();
 /**
  * Connect MongoDB
  */
-mongoose.connect(process.env.MONGODB, {
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
