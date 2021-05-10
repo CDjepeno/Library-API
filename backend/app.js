@@ -1,21 +1,9 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import mongoose from 'mongoose'
 import router from './routes/routes.js'
 
-dotenv.config()
-
-
+import mongoose from './database/mongoose.js'
 const app = express();
-
-/**
- * Connect MongoDB
- */
-mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-})
 
 /**
  * Middleware

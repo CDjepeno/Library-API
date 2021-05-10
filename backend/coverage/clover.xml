@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1620596689496" clover="3.2.0">
-  <project timestamp="1620596689496" name="All files">
+<coverage generated="1620601267586" clover="3.2.0">
+  <project timestamp="1620601267586" name="All files">
     <metrics statements="38" coveredstatements="8" conditionals="10" coveredconditionals="0" methods="15" coveredmethods="1" elements="63" coveredelements="9" complexity="0" loc="38" ncloc="38" packages="2" files="2" classes="2"/>
     <package name="controllers">
       <metrics statements="36" coveredstatements="6" conditionals="10" coveredconditionals="0" methods="15" coveredmethods="1"/>
       <file name="bookController.js" path="/home/djepeno/site/pmern/Library_MERN/backend/controllers/bookController.js">
         <metrics statements="36" coveredstatements="6" conditionals="10" coveredconditionals="0" methods="15" coveredmethods="1"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="18" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -19,7 +19,7 @@
         <line num="21" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
@@ -28,14 +28,14 @@
         <line num="37" count="0" type="stmt"/>
         <line num="39" count="0" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
         <line num="47" count="0" type="stmt"/>
         <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="50" count="0" type="stmt"/>
         <line num="52" count="0" type="stmt"/>
         <line num="54" count="0" type="stmt"/>
-        <line num="58" count="1" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
         <line num="59" count="0" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
         <line num="63" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -48,8 +48,8 @@
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="bookmodel.js" path="/home/djepeno/site/pmern/Library_MERN/backend/models/bookmodel.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
       </file>
     </package>
   </project>
