@@ -1,7 +1,6 @@
-import mongoose from 'mongoose'
-import request from 'supertest'
 import app from '../app.js'
-
+import request from 'supertest'
+import mongoose from 'mongoose'
 
 describe("mongo", () => {
     beforeAll(async () => {
@@ -16,11 +15,8 @@ describe("mongo", () => {
         await mongoose.disconnect();
     });
 
-    it("Connection mongoDB success", async() => {
-        await request(app)
-            .get('/api/books') 
-            .expect(200)
-            .end
+    it("should respond with a 200 status code", async() => {
+        const books = await request(app).get('/api/books')
+        expect(books.status).toBe(200)
     });
 });
-
