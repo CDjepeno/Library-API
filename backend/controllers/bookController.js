@@ -13,15 +13,15 @@ export const getBooks = (_, res) => {
 export const getBook = (req, res, next) => {
     BookModel
         .findById(req.params.id)
-        .then(book => res.status(200).json(book))
+        .then(book =>  res.status(200).json(book))
         .catch(err => {
-            if (Object.keys(err.reason).length === 0 ) {
-                res.status(404).json("Aucun livre ne correspond à votre recherche")
-            } else {
+            if(err.messageFormat === undefined ) {
+                return res.status(404).json("Aucun livre ne correspond à votre recherche")
+            }else {
+                const message = "Un problème est survenue lors de la requête veuillez réessayez"
+                res.status(500).json({message, data: err})
                 next();
             }
-            const message = "Un problème est survenue lors de la requête veuillez réessayez"
-            res.status(500).json({message, data: err})
         })
 }
 
