@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 
 
 describe("GET api/books/:id", () => {
-    const id = "609df89cb7d6bdbb49117372"
+    const id = "609f3d17828e1b52645f55f9"
     const fakeId = "6090dc136ef8d46545fdsf6sd5"
     beforeAll(async () => {
         await mongoose.connect(process.env.MONGO_URI, {
@@ -37,7 +37,6 @@ describe("GET api/books/:id", () => {
             .then(book => {
                 expect(JSON.parse(book.text)).toEqual(bookModel)
             }) 
-            // .catch(err => console.log(err))
     })
 
     it("If not found return 404", () => {

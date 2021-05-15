@@ -29,15 +29,15 @@ export const addBook = (req, res, next) => {
     const Book = new BookModel(req.body)
     Book
         .save()
-        .then(_ => res.json(`Le livre ${req.body.title} a bien été ajouter`))
+        .then(_ => res.status(201).json(`Le livre ${req.body.title} a bien été ajouter`)) 
         .catch(err => {
-            if (err.name === 'MongoError' && err.code === 11000) {
-                res.status(404).json("Un livre possède déja ce titre")
+            if (err.name === 'MongoNetworkError' || err.code === 11000) {
+                return res.status(404).json("Un livre possède déja ce titre")
               } else {
+                const message = "Un problème est survenue lors de la création du livre"
+                res.status(500).json({message, data: err})
                 next();
               }
-            const message = "Un problème est survenue lors de la création du livre"
-            res.status(500).json({message, data: err})
         })
 }
 
