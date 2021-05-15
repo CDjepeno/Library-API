@@ -1,4 +1,4 @@
-import BookModel from '../models/bookmodel.js'
+import BookModel from '../models/bookModel.js'
 
 export const getBooks = (_, res) => {
     BookModel
