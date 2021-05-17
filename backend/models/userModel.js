@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
         validate: validator.isEmail,
         lowercase: true,
         trim: true, 
+        required: true,
         unique: true
     }, 
     pseudo: {
@@ -36,6 +37,6 @@ UserSchema.pre('save', async function(next) {
     next()
 })
 
-const User = mongoose.model('User', UserSchema)
+const UserModel = mongoose.model('User', UserSchema)
 
-export default User
+export default UserModel
