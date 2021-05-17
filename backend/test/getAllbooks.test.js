@@ -9,6 +9,7 @@ describe("GET /api/books", () => {
       useCreateIndex: true,
       useUnifiedTopology: true,
     });
+
   });
 
   afterAll(async () => {
@@ -16,20 +17,17 @@ describe("GET /api/books", () => {
   });
 
   it("should respond with a 200 status code", async() => {
-      await request(app).get("/api/books").expect(200).end;
+      const res = await request(app).get("/api/books")
+      expect(res.status).toEqual(200)  
   });
 
-  it("should respond contain array of object", async () => {
-    try {
-      request(app)
-        .get("/api/books")
-        .then(books => {
-          expect.arrayContaining([
-            expect.objectContaining(books)
-          ]);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  it("should respond contain array of object or null", async () => {
+      request(app).get("/api/books")
+      .then(books => {
+        expect.arrayContaining([
+          expect.objectContaining(books || null)
+        ]);
+      })
+      .catch(err => console.log(err))
   });
 });
