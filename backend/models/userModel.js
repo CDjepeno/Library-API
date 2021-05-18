@@ -26,6 +26,10 @@ const UserSchema = new mongoose.Schema({
             message: "Le champ mot de passe est requis"
         },
         max: 1024
+    },
+    role: {
+        type: [String],
+        default: "user"
     }
 })
 
