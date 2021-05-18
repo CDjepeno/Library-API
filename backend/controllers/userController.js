@@ -18,15 +18,20 @@ export const register = (req, res) => {
 
 export const login = (req, res) => {
     const {email, password} = req.body
-
+    
     UserModel
-        .find({ email })
+        .findOne({ email })
         .then(user => {
             if(!user) {
                 const message = "Utilisateur inconnu"
-                res.status(404).json({ message })
+                return res.status(404).json({ message })
+            } else {
+                PasswordVerify(user, password, res)
             }
-            PasswordVerify(user, password, res)
         })
+        .catch(err => {
+            res.status(500).send(err)
+        })
+     
 }
 

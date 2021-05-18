@@ -46,13 +46,13 @@ UserSchema.pre('save', async function(next) {
 
 export const PasswordVerify = (user, password, res) => {
     bcrypt
-        .compare(password, user[0].password)
+        .compare(password, user.password)
         .then(isPasswordValid => {
             if(!isPasswordValid) {
                 const message = "Votre mot de passe n'est pas valide"
                 res.status(404).json({ message })
             }
-            const token = jwt.sign({userId: user[0]._id}, process.env.TOKEN_SECRET, {expiresIn: '24h'})
+            const token = jwt.sign({userId: user._id}, process.env.TOKEN_SECRET, {expiresIn: '24h'})
             const message = "Connecter"
             res.json({message, token, user})
         }) 
