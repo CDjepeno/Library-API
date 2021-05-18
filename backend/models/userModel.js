@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const UserSchema = new mongoose.Schema({
     email : {
@@ -8,7 +9,9 @@ const UserSchema = new mongoose.Schema({
         validate: validator.isEmail,
         lowercase: true,
         trim: true, 
-        required: true,
+        required: {
+            message: "Le champ email est requis"
+        },
         unique: true
     }, 
     pseudo: {
@@ -36,6 +39,20 @@ UserSchema.pre('save', async function(next) {
 
     next()
 })
+
+export const PasswordVerify = (user, password, res) => {
+    bcrypt
+        .compare(password, user[0].password)
+        .then(isPasswordValid => {
+            if(!isPasswordValid) {
+                const message = "Votre mot de passe n'est pas valide"
+                res.status(404).json({ message })
+            }
+            const token = jwt.sign({userId: user[0]._id}, process.env.TOKEN_SECRET, {expiresIn: '24h'})
+            const message = "Connecter"
+            res.json({message, token, user})
+        }) 
+}
 
 const UserModel = mongoose.model('User', UserSchema)
 

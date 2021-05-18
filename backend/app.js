@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import router from "./routes/routes.js";
-
 import mongoose from "./database/mongoose.js";
+
 dotenv.config();
 const app = express();
 

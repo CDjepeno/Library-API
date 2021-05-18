@@ -3,23 +3,31 @@ import mongoose from "mongoose";
 const BookSchema = new mongoose.Schema({
   title: {
     type: String,
-    require: true,
+    required: {
+      message: "Le champ titre est requis"
+    },
     lowercase: true,
     unique: "Un livre possède déja ce titre",
   },
   genre: {
     type: String,
-    require: true,
+    required: {
+      message: "Le genre est requis"
+    },
     lowercase: true,
   },
   author: {
     type: String,
-    require: true,
+    required: {
+      message: "L'auteur est requis"
+    },
     lowercase: true,
   },
   picture: {
     type: String,
-    require: true,
+    required: {
+      message: "La photo du livre est requis"
+    },
   },
 });
 

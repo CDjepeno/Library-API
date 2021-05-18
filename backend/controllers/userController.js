@@ -1,6 +1,5 @@
-import UserModel from '../models/userModel.js' 
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import UserModel, { PasswordVerify } from '../models/userModel.js' 
+
 
 export const register = (req, res) => {
     UserModel
@@ -16,3 +15,18 @@ export const register = (req, res) => {
             res.status(401).send(err.errors)
         })
 }
+
+export const login = (req, res) => {
+    const {email, password} = req.body
+
+    UserModel
+        .find({ email })
+        .then(user => {
+            if(!user) {
+                const message = "Utilisateur inconnu"
+                res.status(404).json({ message })
+            }
+            PasswordVerify(user, password, res)
+        })
+}
+
