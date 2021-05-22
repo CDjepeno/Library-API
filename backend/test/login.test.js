@@ -25,17 +25,17 @@ describe("Login /api/login", () => {
   it("Should login successful respond 200", async () => {
     const login = await request(app).post("/api/login").send(user);
     expect(login.status).toEqual(200);
-  });
+  }, 500);
 
   it("Should receive token after respond 200", async () => {
     const login = await request(app).post("/api/login").send(user);
     expect(login.body.token).toBeDefined();
-  });
+  }, 500);
 
   it("Should login fail respond 404", async () => {
     const login = await request(app).post("/api/login").send(fakeUser);
     expect(login.status).toEqual(404);
-  });
+  }, 500);
 
   afterAll(async () => {
     await mongoose.connection.dropCollection("users");
