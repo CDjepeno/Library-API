@@ -56,7 +56,7 @@ export const updateBook = (req, res) => {
 };
 
 export const deleteBook = (req, res) => {
-  BookModel.findOneAndDelete(req.params.id)
+  BookModel.findByIdAndDelete(req.params.id)
     .then((_) => res.json("Le livre a bien été supprimer"))
     .catch((err) => {
       if (Object.keys(err.reason).length === 0) {
