@@ -2,7 +2,7 @@ import express from "express";
 import {
   addBook,
   deleteBook,
-  getBook,
+  getOneBook,
   getBooks,
   updateBook,
 } from "../controllers/bookController.js";
@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get("/api/books", getBooks);
 
-router.get("/api/books/:id", getBook);
+router.get("/api/books/:id", getOneBook);
 
 router.post("/api/books", auth, addBook);
 

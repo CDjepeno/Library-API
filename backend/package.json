@@ -7,6 +7,11 @@
     "start": "env-cmd -f ./config/.dev.env nodemon src/server.js",
     "test": "env-cmd -f ./config/.test.env jest --watchAll --verbose"
   },
+  "jest": {
+    "verbose": true,
+    "testTimeout": 40000,
+    "preset": "@shelf/jest-mongodb"
+  },
   "type": "module",
   "keywords": [],
   "author": "Djepeno",

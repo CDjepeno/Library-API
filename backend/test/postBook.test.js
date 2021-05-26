@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import app from "../app";
 import request from "supertest";
-import BookModel from "../models/bookModel.js";
-import { auth } from "../controllers/auth/auth";
 
 describe("POST api/books/", () => {
   const book = {
@@ -10,7 +8,12 @@ describe("POST api/books/", () => {
     genre: "programmation",
     author: "c.marvin",
     picture: "javascript.js",
-  };
+  }
+  const failBook = {
+    title: "pytho",
+    genre: "programmation",
+    author: "c.marvin"
+  }
   const bookModel = {
     __v: expect.any(Number), 
     _id: expect.any(String),
@@ -18,41 +21,71 @@ describe("POST api/books/", () => {
     genre: expect.any(String),
     author: expect.any(String),
     picture: expect.any(String),
-  };
+  }
   const user = {
-    email: "djepeno@gmail.com",
+    email: "marc@gmail.com",
     password: "dulonx",
   };
   let token;
+  let res;
+
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    });
-
-    const newUser = await request(app).post("/api/register").send(user); 
-    const login = await request(app).post("/api/login").send(user);
-    token = login.body.token 
-  }, 5000);
-
-  afterEach(async() => {
-    await mongoose.connection.dropCollection("books");
+    try {
+      await mongoose.connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+      });
+  
+      const newUser = await request(app).post("/api/register").send(user); 
+      const login = await request(app).post("/api/login").send(user);
+      token = login.body.token 
+    } catch (error) {
+      console.log(error)
+    }
   });
 
+  afterEach(async() => {
+    try {
+      await mongoose.connection.dropCollection("books")
+    } catch (error) {
+      console.log(error)
+    }
+  })
+
   it("should respond 201 create book", async () => {
-    const Book = new BookModel(book);
-    const res = await request(app).post("/api/books").send(book).set("Authorization", `Bearer ${token}`) 
-    expect(res.status).toBe(201);
-  }, 500);
+    try {
+      res = await request(app).post("/api/books").send(book).set("Authorization", `Bearer ${token}`) 
+    } catch (error) {
+      console.log(error)
+    }
+    expect(res.status).toBe(201)  
+  });
 
   it("can be created correctly", async() => {
-    const res = await request(app).post("/api/books").send(book).set("Authorization", `Bearer ${token}`)
-    expect(JSON.parse(res.text)).toEqual(bookModel)
+    try {
+      res = await request(app).post("/api/books").send(book).set("Authorization", `Bearer ${token}`)
+    } catch (error) {
+      console.log(error) 
+    }
+    expect(JSON.parse(res.text)).toEqual(bookModel)  
   }); 
 
+  it("should respond with a 401 status code forget field", async () => {
+    try {
+      const res1 = await request(app).post("/api/books").send(book).set("Authorization", `Bearer ${token}`)
+      res = await request(app).post("/api/books").send(failBook).set("Authorization", `Bearer ${token}`)
+    } catch (error) {
+      console.log(error)    
+    }
+    expect(res.status).toBe(404)
+  })
+
   afterAll(async () => {
-    await mongoose.connection.dropDatabase();
-    await mongoose.disconnect();
+    try {
+      await mongoose.disconnect()
+    } catch (error) {
+      console.log(error)
+    }
   });
 });

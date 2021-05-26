@@ -3,19 +3,33 @@ import request from "supertest";
 import app from "../app.js";
 
 describe("mongo", () => {
+  let res
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    });
+    try {
+      await mongoose.connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+      })  
+    } catch (error) {
+      console.log(error)
+    }
   });
 
-  afterAll(async (_) => {
-    await mongoose.disconnect();
-  });
+  it("Connection mongoDB success",async () => {
+    try {
+      res = await request(app).get("/api/books").expect(200)
+    } catch (error) {
+      console.log(error)
+    }
+  })
 
-  it("Connection mongoDB success", () => {
-    request(app).get("/api/books").expect(200).end;
-  });
-});
+  afterAll(async () => {
+    try {
+      await mongoose.disconnect()
+    } catch (error) {
+      console.log(error)
+    }
+  })
+
+})

@@ -8,7 +8,6 @@ export const auth = (req, res, next) => {
       "Vous n'avez pas fourni de jeton d'authentification. Ajoutez-en un dans l'en-tête de la requete";
     res.status(401).json({ message });
   }
-  console.log(authorizationHeader);
   const token = authorizationHeader.split(" ")[1];
   const decodedToken = jwt.verify(
     token,
