@@ -32,12 +32,12 @@ describe("GET api/books/:id", () => {
         useCreateIndex: true,
         useUnifiedTopology: true,
       });
-  
+
       const newUser = await request(app).post("/api/register").send(user);
       const login = await request(app).post("/api/login").send(user);
       token = login.body.token;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   });
 
@@ -45,7 +45,7 @@ describe("GET api/books/:id", () => {
     try {
       await mongoose.connection.dropCollection("books");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   });
 
@@ -54,48 +54,53 @@ describe("GET api/books/:id", () => {
       const newbook = await request(app)
         .post("/api/books")
         .send(book)
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${token}`);
 
-      const id = newbook.body._id
+      const id = newbook.body._id;
 
-      res = await request(app).get(`/api/books/${id}`)
+      res = await request(app).get(`/api/books/${id}`);
     } catch (error) {
-      console.log(error)
-    }
-    expect(res.status).toBe(200)
-  })
-
-  it("should respond with a object containing", async () => {
-    try {
-      res = await request(app)
-        .post("/api/books")
-        .send(book)
-        .set("Authorization", `Bearer ${token}`)
-    } catch (error) {
-      console.log(error)
-    }
-    expect(JSON.parse(res.text)).toEqual(bookModel)
+      console.log(error);
+    } 
+    expect(res.status).toBe(200);
   });
 
-  it("If not found return 404",async () => {
+  it("should respond with a object containing", async () => {
     try {
       const newbook = await request(app)
         .post("/api/books")
         .send(book)
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${token}`);
 
-      res = await request(app).get(`/api/books/${fakeId}`)
+      const id = newbook.body._id;
+
+      res = await request(app).get(`/api/books/${id}`);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    expect(res.status).toBe(404)
-  })
+    expect(JSON.parse(res.text)).toEqual(bookModel);
+  });
+
+  it("If not found return 404", async () => {
+    try {
+      const newbook = await request(app)
+        .post("/api/books")
+        .send(book)
+        .set("Authorization", `Bearer ${token}`);
+
+      res = await request(app).get(`/api/books/${fakeId}`);
+    } catch (error) {
+      console.log(error);
+    }
+    expect(res.status).toBe(404);
+  });
 
   afterAll(async () => {
     try {
-      await mongoose.disconnect()
+      await mongoose.connection.dropCollection("users"); 
+      await mongoose.disconnect();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  })
-})
+  });
+});

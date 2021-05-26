@@ -83,6 +83,7 @@ describe("POST api/books/", () => {
 
   afterAll(async () => {
     try {
+      await mongoose.connection.dropCollection("users");
       await mongoose.disconnect()
     } catch (error) {
       console.log(error)

@@ -23,8 +23,13 @@ describe("PUT /books/:id", () => {
     author: expect.any(String),
     picture: expect.any(String),
   };
+  const user = {
+    email: "djepeno@gmail.com",
+    password: "dulonx",
+  };
   let res;
   let token;
+  let fakeId = "6090dc136ef8d46545fdsf6sd5";
 
   beforeAll(async () => {
     try {
@@ -32,10 +37,18 @@ describe("PUT /books/:id", () => {
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
-      });  
+      });
       await request(app).post("/api/register").send(user);
       const res = await request(app).post("/api/login").send(user);
       token = res.body.token;
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  
+  afterEach(async () => {
+    try {
+      await mongoose.connection.dropCollection("books");
     } catch (error) {
       console.log(error);
     }
@@ -47,38 +60,55 @@ describe("PUT /books/:id", () => {
         .post("/api/books")
         .send(book)
         .set("Authorization", `Bearer ${token}`);
-  
+
       const id = newbook.body._id;
 
-      res = await request(app).put(`/api/books/${id}`).send(upbook).set("Authorization", `Bearer ${token}`);
+      res = await request(app)
+        .put(`/api/books/${id}`)
+        .send(upbook)
+        .set("Authorization", `Bearer ${token}`);
     } catch (error) {
-      console.log(error);  
+      console.log(error);
     }
-    console.log(res); 
-    // expect(res.status).toBe(200);  
+    expect(res.status).toBe(200);
   });
 
-  it("Should respond contain valid object", async () => {
+  it("If not found return 404", async () => {
     try {
       const newbook = await request(app)
         .post("/api/books")
         .send(book)
         .set("Authorization", `Bearer ${token}`);
-  
-      const id = newbook.body._id;
 
-      res = request(app)
-        .put(`/api/books/${id}`)
-        .send(upbook)
-        .set("Authorization", `Bearer ${token}`);
+      res = await request(app).get(`/api/books/${fakeId}`);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-    console.log(res);
-    expect(res.text).toEqual(bookModel); 
+    expect(res.status).toBe(404);
   });
 
+  // it("Should respond contain valid object", async () => {
+  //   try {
+  //     const newbook = await request(app)
+  //       .post("/api/books")
+  //       .send(book)
+  //       .set("Authorization", `Bearer ${token}`);
+
+  //     const id = newbook.body._id;
+
+  //     res = request(app)
+  //       .put(`/api/books/${id}`)
+  //       .send(upbook)
+  //       .set("Authorization", `Bearer ${token}`);
+  //   } catch (error) {
+  //       console.log(error);
+  //   }
+  //   console.log(res);
+  //   expect(res.text).toEqual(bookModel);
+  // });
+
   afterAll(async () => {
+    await mongoose.connection.dropCollection("users"); 
     await mongoose.disconnect();
   });
 });

@@ -1,7 +1,7 @@
 import UserModel, { PasswordVerify } from "../models/userModel.js";
 
 export const register = (req, res, next) => {
-  UserModel.create({
+  return UserModel.create({
     email: req.body.email,
     password: req.body.password,
   })
@@ -22,7 +22,7 @@ export const register = (req, res, next) => {
 export const login = (req, res, next) => {
   const { email, password } = req.body
 
-  UserModel.findOne({ email })
+  return UserModel.findOne({ email })
     .then((user) => {
       if (!user) {
         const message = "Utilisateur inconnu";

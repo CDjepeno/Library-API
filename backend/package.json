@@ -9,7 +9,7 @@
   },
   "jest": {
     "verbose": true,
-    "testTimeout": 40000,
+    "testTimeout": 60000,
     "preset": "@shelf/jest-mongodb"
   },
   "type": "module",

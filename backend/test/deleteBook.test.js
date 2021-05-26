@@ -15,6 +15,7 @@ describe("DELETE /book/:id", () => {
   };
   let token;
   let res;
+  let fakeId = "6090dc136ef8d46545fdsf6sd5";
   beforeAll(async () => {
     try {
       await mongoose.connect(process.env.MONGO_URI, {
@@ -37,7 +38,6 @@ describe("DELETE /book/:id", () => {
         .post("/api/books")
         .send(book)
         .set("Authorization", `Bearer ${token}`);
-  
       const id = newbook.body._id;
   
       res = await request(app)
@@ -50,9 +50,24 @@ describe("DELETE /book/:id", () => {
       expect(res.status).toBe(200);
   });
 
+  it("If not found return 404", async () => {
+    try {
+      const newbook = await request(app)
+        .post("/api/books")
+        .send(book)
+        .set("Authorization", `Bearer ${token}`);
+
+      res = await request(app).get(`/api/books/${fakeId}`);
+    } catch (error) {
+      console.log(error);
+    }
+    expect(res.status).toBe(404);
+  });
+
   afterAll(async () => {
     try {
-      await mongoose.connection.dropCollection("users"); 
+      await mongoose.connection.dropCollection("users");
+      await mongoose.connection.dropCollection("books"); 
       await mongoose.disconnect();
     } catch (error) {
       console.log(error);

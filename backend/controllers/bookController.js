@@ -1,7 +1,7 @@
 import BookModel from "../models/bookModel.js";
 
 export const getBooks = (_, res) => {
-  BookModel.find({})
+  return BookModel.find({})
     .then((books) => res.status(200).json(books))
     .catch((err) => {
       const message =
@@ -11,9 +11,9 @@ export const getBooks = (_, res) => {
 };
 
 export const getOneBook = (req, res, next) => {
-  BookModel.findById(req.params.id)
-    .then(book => res.status(200).json(book))
-    .catch(err => {
+  return BookModel.findById(req.params.id)
+    .then((book) => res.status(200).json(book))
+    .catch((err) => {
       if (err.messageFormat === undefined) {
         return res
           .status(404)
@@ -35,7 +35,11 @@ export const addBook = (req, res, next) => {
       if (err.name === "MongoNetworkError" || err.code === 11000) {
         return res.status(404).json("Un livre possède déja ce titre");
       } else if (err.name === "ValidationError") {
-        return res.status(404).json("Vous avez oubliez de remplir un champ ou un champ n'est pas remplis correctement");
+        return res
+          .status(404)
+          .json(
+            "Vous avez oubliez de remplir un champ ou un champ n'est pas remplis correctement"
+          );
       } else {
         const message = "Un problème est survenue lors de la création du livre";
         res.status(500).json({ message, data: err });
@@ -44,40 +48,37 @@ export const addBook = (req, res, next) => {
     });
 };
 
-export const updateBook = async(req, res) => {  
+export const updateBook = (req, res) => {
+  return BookModel.findOne({ _id: req.params.id }).then(book => {
+    book.title = req.body.title;
+    book.genre = req.body.genre;
+    book.picture = req.body.picture;
+    book.author = req.body.author;
 
-  // BookModel.findOneAndUpdate({_id : req.params.id}, req.body,{runValidators: true, new: true, context: 'query'}, (err) => {
-  //   if(err) {
-  //     res.json(err);
-  //   }
-  //   res.json('data update');
-  // })
-
-  const options = { upsert: true, setDefaultsOnInsert: true, strict: false, new: true, runValidators: true, context: 'query' };
-  
-  const Book  = await BookModel.findOneAndUpdate({_id : req.params.id}, req.body, options, (err, book) => {
-    if(err) {
-      res.json(err);
-    }
-    res.json(book)
-  } )
-  // console.log(Book);
-  // const newBook = new BookModel(Book);
-  // console.log(newBook);
-  // newBook.save()
-  //   .then(book => res.status(201).json(book))
-  //   .catch(err => res.json(err))
+    book
+      .save()
+      .then((book) => res.status(200).json(book))
+      .catch((err) => {
+        if (err.name === "ValidationError") {
+          return res
+            .status(404)
+            .json(
+              "Vous avez oubliez un champ ou un champ n'est pas remplis correctement"
+            );
+        }
+      });
+  });
 };
 
 export const deleteBook = (req, res) => {
-  BookModel.findByIdAndDelete(req.params.id)
-    .then((_) => res.json("Le livre a bien été supprimer"))
+  return BookModel.findByIdAndDelete(req.params.id)
+    .then((book) => res.json(`Le livre ${book.title} a bien été supprimer`))
     .catch((err) => {
       if (Object.keys(err.reason).length === 0) {
         res.status(404).json("Aucun livre ne correspond à votre recherche");
       } else {
+        res.status(500).json(err);
         next();
       }
-      res.status(500).json(err);
     });
 };
