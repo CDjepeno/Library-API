@@ -18,7 +18,6 @@ export const auth = (req, res, next) => {
           "L'utilisateur n'est pas autorisé à accéder à cette ressource";
         return res.status(401).json({ message });
       }
-
       const userId = decodedToken.userId;
       if (req.body.userId && req.body.userId != userId) {
         const message = "L'identifiant de l'utilisateur est invalide";

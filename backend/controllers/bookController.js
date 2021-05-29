@@ -49,24 +49,11 @@ export const addBook = (req, res, next) => {
 };
 
 export const updateBook = (req, res) => {
-  return BookModel.findOne({ _id: req.params.id }).then(book => {
-    book.title = req.body.title;
-    book.genre = req.body.genre;
-    book.picture = req.body.picture;
-    book.author = req.body.author;
-
-    book
-      .save()
-      .then((book) => res.status(200).json(book))
-      .catch((err) => {
-        if (err.name === "ValidationError") {
-          return res
-            .status(404)
-            .json(
-              "Vous avez oubliez un champ ou un champ n'est pas remplis correctement"
-            );
-        }
-      });
+  return BookModel.findByIdAndUpdate(req.params.id, req.body, (err, book) => {
+    if (err) {
+      res.status(404).json("un problème");
+    }
+    res.json(book);
   });
 };
 

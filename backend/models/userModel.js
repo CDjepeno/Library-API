@@ -50,11 +50,11 @@ export const PasswordVerify = (user, password, res) => {
         .then(isPasswordValid => {
             if(!isPasswordValid) {
                 const message = "Votre mot de passe n'est pas valide"
-                res.status(404).json({ message })
+                return res.status(404).json({ message })
             }
             const token = jwt.sign({userId: user._id}, process.env.TOKEN_SECRET, {expiresIn: '24h'})
             const message = "Connecter"
-            res.json({message, token, user})
+            return res.json({message, token, user})
         }) 
 }
 
