@@ -3,6 +3,7 @@ import request from "supertest";
 import BookModel from "../models/bookModel.js";
 import mongoose from "mongoose";
 import { books } from "./utils.js";
+import {getBooks} from '../controllers/bookController'
 
 describe("GET /api/books", () => {
   beforeAll(async () => {
@@ -10,7 +11,7 @@ describe("GET /api/books", () => {
       await BookModel.create(b);
     }
   });
-
+  
   it("should respond with a 200 status code", async () => {
     await request(app)
       .get("/api/books")

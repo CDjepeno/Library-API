@@ -62,7 +62,7 @@ export const deleteBook = (req, res) => {
     .then((book) => res.json(`Le livre ${book.title} a bien été supprimer`))
     .catch((err) => {
       if (Object.keys(err.reason).length === 0) {
-        res.status(404).json("Aucun livre ne correspond à votre recherche");
+        return res.status(404).json("Aucun livre ne correspond à votre recherche");
       } else {
         res.status(500).json(err);
         next();
