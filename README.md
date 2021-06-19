@@ -22,7 +22,7 @@ Library API
 ![jest](https://user-images.githubusercontent.com/43074465/120075853-3832fd00-c0a3-11eb-9d30-c0508e674ad5.png)
 
 ## Features
-- Test unitaire et fonctionnel avec Jest.
+- Test fonctionnel avec Jest.
 - Utilisation de swagger docs pour documenter l'api
 - MongoDB
 - Authentification JWT Token
